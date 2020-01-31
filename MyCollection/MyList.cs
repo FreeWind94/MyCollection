@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyCollection
+namespace MyCollection 
 {
     //доносвязный список
-    class MyList<T>
+    class MyList<T> : IEnumerable<T>
     {
         /// <summary>
         /// Узел односвязного списка. Хранит данные типа "T" и ссылку на следующий элемент.
@@ -82,6 +83,19 @@ namespace MyCollection
             count++;
         }
         
+        /// <summary>
+        /// Очистка списка
+        /// </summary>
+        public void Clear()
+        {
+            // удаление реализовано самым простым методом в надежде, что сборщик мусора справиться с этой задачей сам
+            firstNode = null;
+            currentNode = null;
+            lastNode = null;
+            count = 0;
+        }
+
+        
         public override string ToString()
         {
             string result = "";
@@ -93,6 +107,22 @@ namespace MyCollection
             }
 
             return result;
+        }
+
+        // реализация интерфейса IEnumerable<T>
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            currentNode = firstNode;
+            while(currentNode != null)
+            {
+                yield return currentNode.Data;
+                currentNode = currentNode.Next;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)this).GetEnumerator();
         }
     }
 }
