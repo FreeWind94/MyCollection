@@ -29,5 +29,10 @@ namespace MyCollection
             get => lastName;
             set => lastName = value;
         }
+
+        public override string ToString()
+        {
+            return "First name:\t" + firstName + ",\tlast name:\t" + lastName;
+        }
     }
 }
