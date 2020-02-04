@@ -34,5 +34,15 @@ namespace MyCollection
         {
             return "First name:\t" + firstName + ",\tlast name:\t" + lastName;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Person)
+            {
+                Person person = obj as Person;
+                return this.firstName.Equals(person.firstName) && this.lastName.Equals(person.lastName);
+            }
+            else return false;
+        }
     }
 }

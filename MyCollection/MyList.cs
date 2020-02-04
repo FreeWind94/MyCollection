@@ -38,11 +38,11 @@ namespace MyCollection
          */
         private Node<T> firstNode;
         private Node<T> lastNode;
-        private Node<T> currentNode;
+        //private Node<T> currentNode;
         private int count;
         public T First { get => firstNode.Data; }
         public T Last { get => lastNode.Data; }
-        public T Current { get => currentNode.Data; }
+        //public T Current { get => currentNode.Data; }
         public int Count { get => count; }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace MyCollection
         /// </summary>
         public MyList()
         {
-            firstNode = lastNode = currentNode = null;
+            firstNode = lastNode = null;
             count = 0;
         }
 
@@ -71,7 +71,7 @@ namespace MyCollection
             if(IsEmpty)
             {
                 firstNode = newNode;
-                currentNode = newNode;
+                //currentNode = newNode;
             }
             else
             {
@@ -89,7 +89,7 @@ namespace MyCollection
         {
             // удаление реализовано самым простым методом в надежде, что сборщик мусора справиться с этой задачей сам
             firstNode = null;
-            currentNode = null;
+            //currentNode = null;
             lastNode = null;
             count = 0;
         }
@@ -98,7 +98,7 @@ namespace MyCollection
         public override string ToString()
         {
             string result = "";
-            currentNode = firstNode;
+            Node<T> currentNode = firstNode;
             while (currentNode != null)
             {
                 result += currentNode.ToString() + Environment.NewLine;
@@ -108,10 +108,69 @@ namespace MyCollection
             return result;
         }
 
+        /*TODO: 
+         * - удаление 
+         * - возможность достать элемент по номеру
+         * - поиск 
+         * - склеивание двух списков
+         */
+        
+        /// <summary>
+        /// Удаление элемента из списка (если есть несколько элементов data, удаляется только первый по порядку)
+        /// </summary>
+        /// <param name="data">удаляемый элемент</param>
+        /// <returns>true, если удаление элемента прошло успешно</returns>
+        public bool Remove(T data)
+        {
+            Node<T> currentNode = firstNode;
+            Node<T> previousNode = null;
+
+            while (currentNode != null)
+            {
+                // обработка узла
+                if(currentNode.Data.Equals(data))
+                {
+                    // ветка удаления узла
+                    if(previousNode == null)
+                    {
+                        // удаляется первый узел
+                        firstNode = firstNode.Next;
+
+                        // проверка стал ли список пустым (на случай если список состоял из одного узла)
+                        if(firstNode == null)
+                        {
+                            lastNode = null;
+                        }
+                    }
+                    else
+                    {
+                        // удаляется средний или последний узел
+                        previousNode.Next = currentNode.Next;
+
+                        // если currentNode был полседним узлом, то теперь им должен быть previousNode
+                        if(currentNode.Next == null)
+                        {
+                            lastNode = previousNode;
+                        }
+                    }
+                    // узел успешно удалён
+                    count--;
+                    return true;
+                }
+
+                // переход к следующему узлу
+                previousNode = currentNode;
+                currentNode = currentNode.Next;
+            }
+
+            return false;
+        }
+
+        //
         // реализация интерфейса IEnumerable<T>
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            currentNode = firstNode;
+            Node<T> currentNode = firstNode;
             while(currentNode != null)
             {
                 yield return currentNode.Data;

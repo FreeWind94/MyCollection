@@ -21,6 +21,21 @@ namespace MyCollection
             {
                 Console.WriteLine("Hello " + person.FirstName + "!");
             }
+
+            // тест Remove
+            Console.WriteLine("__________Test 1__________");
+            people.Remove(new Person("Vasiliy", "Pupkin"));
+            Console.WriteLine(people.ToString());
+            Console.WriteLine("__________Test 2__________");
+            people.Remove(new Person("Maxim", "Shchukin"));
+            Console.WriteLine(people.ToString());
+            Console.WriteLine("__________Test 3__________");
+            people.Remove(new Person("Aleshka", "Grabovod"));
+            Console.WriteLine(people.ToString());
+            Console.WriteLine("__________Test 4__________");
+            people.Remove(new Person("Nikita", "Shchukin"));
+            Console.WriteLine(people.ToString());
+            Console.WriteLine("Count is: " + people.Count);
         }
     }
 }
