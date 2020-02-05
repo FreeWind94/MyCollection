@@ -109,8 +109,6 @@ namespace MyCollection
         }
 
         /*TODO: 
-         * - удаление 
-         * - возможность достать элемент по номеру
          * - поиск 
          * - склеивание двух списков
          */
@@ -164,6 +162,63 @@ namespace MyCollection
             }
 
             return false;
+        }
+
+        //
+        //возможность достать элемент по номеру
+        /// <summary>
+        /// Возращает номер первого элемента data в списке (если его нет, возращает -1)
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public int IndexOf(T data)
+        {
+            Node<T> currentNode = firstNode;
+            int index = 0;
+            while(currentNode != null)
+            {
+                if(currentNode.Data.Equals(data))
+                {
+                    return index;
+                }
+                index++;
+                currentNode = currentNode.Next;
+            }
+
+            return -1;
+        }
+
+        public T this [int index]
+        {
+            get
+            {
+                if (index < 0 || index >= count) throw new ArgumentOutOfRangeException("index");
+                Node<T> currentNode = firstNode;
+                int indexCounter = 0;
+                while(true)
+                {
+                    if(index == indexCounter++)
+                    {
+                        return currentNode.Data;
+                    }
+                    currentNode = currentNode.Next;
+                }
+            }
+            set
+            {
+                if (index < 0 || index >= count) throw new ArgumentOutOfRangeException("index");
+                Node<T> currentNode = firstNode;
+                int indexCounter = 0;
+                while (true)
+                {
+                    if (index == indexCounter++)
+                    {
+                        currentNode.Data = value;
+                        return;
+                    }
+                    currentNode = currentNode.Next;
+                }
+            }
         }
 
         //
