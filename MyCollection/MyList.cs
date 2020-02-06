@@ -110,7 +110,6 @@ namespace MyCollection
 
         /*TODO: 
          * - поиск 
-         * - склеивание двух списков
          */
         
         /// <summary>
@@ -122,7 +121,7 @@ namespace MyCollection
         {
             Node<T> currentNode = firstNode;
             Node<T> previousNode = null;
-
+            
             while (currentNode != null)
             {
                 // обработка узла
@@ -163,7 +162,8 @@ namespace MyCollection
 
             return false;
         }
-
+        
+        
         //
         //возможность достать элемент по номеру
         /// <summary>
@@ -221,6 +221,7 @@ namespace MyCollection
             }
         }
 
+
         //
         // реализация интерфейса IEnumerable<T>
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
@@ -236,6 +237,24 @@ namespace MyCollection
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)this).GetEnumerator();
+        }
+
+        //
+        // Статические методы
+        /// <summary>
+        /// Склеивание двух списков
+        /// </summary>
+        /// <param name="list1"></param>
+        /// <param name="list2"></param>
+        /// <returns></returns>
+        static public MyList<T> Concat (MyList<T> list1, MyList<T> list2)
+        {
+            MyList<T> result = new MyList<T>();
+            result.firstNode = list1.firstNode;
+            result.lastNode = list2.lastNode;
+            list1.lastNode.Next = list2.firstNode;
+            result.count = list1.count + list2.count;
+            return result;
         }
     }
 }
